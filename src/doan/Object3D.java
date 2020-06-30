@@ -104,8 +104,9 @@ public class Object3D {
 		// ve hinh eclip
                 int net;
 		Object3D eclip = new Object3D();
-                if(h < r/2) net = 1;
+                if(h > r/2 || h<0 ) net = 1;
                 else net = -1;
+                // cai nay de quyet dinh net dut cua hinh eclip neu = -1 thi la co net dut nguoc lai =1 la net lien
 		eclip.eclipMidpoint(ox, oy, r, r / 2, g2d,net);
 		// two line can visible
 		/// g2d.setStroke(new BasicStroke(1));
@@ -115,7 +116,8 @@ public class Object3D {
 		// g2d.setStroke(bs1);
 		netDut(g2d, ox, oy - h, ox, oy);
 		// g2d.dispose();
-		netDut(g2d, ox, oy, ox + r, oy);
+                if(h>0) netDut(g2d, ox, oy, ox + r, oy);
+                else duongThang(g2d, ox, oy, ox + r, oy);
 		// ve cai ten
 		// tam O
 		g2d.setFont(new Font("Arial", Font.BOLD, 15));
