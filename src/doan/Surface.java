@@ -111,14 +111,16 @@ public class Surface extends JPanel {
 		if (index == 2) {
 			Axis3D(g2d);
 			this.setBackground(Color.WHITE);
-			object1.plot(1, 1, 1, 1, g2d, 1);
+			//object1.plot(1, 1, 1, 1, g2d, 1,1);
+			
 
 //			x_non = converX3Dto2D(50, 30);
 //			z_non = converZ3Dto2D(30);
 
 			// drawCone3D(x, z, 100, 200, g2d);
 
-			object1.drawCone3D(x_non, y_non, z_non, r_non, h_non, g2d);
+			//object1.drawCone3D(x_non, y_non, z_non, r_non, h_non, g2d);
+                        object1.drawHinhTru(x_non, y_non, z_non, r_non, h_non, g2d);
 		}
 
 		if (index == 3) {

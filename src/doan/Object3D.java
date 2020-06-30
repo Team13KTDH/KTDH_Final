@@ -8,21 +8,35 @@ import static java.lang.Math.abs;
 
 public class Object3D {
 	// put pixel in eclip
-	public void plot(int xc, int yc, int x, int y, Graphics2D g2d, int temp) {
+	public void plot(int xc, int yc, int x, int y, Graphics2D g2d, int temp, int net) {
 		g2d.setStroke(new BasicStroke(5));
-		if (temp == 0 || temp == 1 || temp == 2)
+                g2d.setColor(Color.BLUE);
+		if(net == -1)
+                {
+                    if (temp == 0 || temp == 1 || temp == 2)
 			g2d.setColor(Color.BLUE);
-		else
+                    else
 			g2d.setColor(Color.WHITE);
 		g2d.drawLine(xc + x, yc - y, xc + x, yc - y);
 		g2d.drawLine(xc - x, yc - y, xc - x, yc - y);
 		g2d.setColor(Color.BLUE);
 		g2d.drawLine(xc + x, yc + y, xc + x, yc + y);
 		g2d.drawLine(xc - x, yc + y, xc - x, yc + y);
+                }
+                if(net == 1)
+                {
+                    
+                    g2d.drawLine(xc + x, yc - y, xc + x, yc - y);
+                    g2d.drawLine(xc - x, yc - y, xc - x, yc - y);
+                    g2d.drawLine(xc + x, yc + y, xc + x, yc + y);
+                    g2d.drawLine(xc - x, yc + y, xc - x, yc + y);
+                }
+                    
+              
 	}
 
 	// draw eclip with midpoit althorithm
-	public void eclipMidpoint(int xc, int yc, int a, int b, Graphics2D g2d) {
+	public void eclipMidpoint(int xc, int yc, int a, int b, Graphics2D g2d, int net) {
 		int x, y, fx, fy, a2, b2, p, temp = 0;
 		x = 0;
 		y = b;
@@ -30,7 +44,7 @@ public class Object3D {
 		b2 = b * b;
 		fx = 0;
 		fy = 2 * a2 * y;
-		plot(xc, yc, x, y, g2d, temp);
+		plot(xc, yc, x, y, g2d, temp,net);
 		// chia lam 6 so 0,1,2,3,4,5
 		if (temp <= 5)
 			temp++;
@@ -48,7 +62,7 @@ public class Object3D {
 				p += b2 * (2 * x + 3) + a2 * (2 - 2 * y);// p=p +b2(2x +3) +a2(2-2y)
 				fy -= 2 * a2;
 			}
-			plot(xc, yc, x, y, g2d, temp);
+			plot(xc, yc, x, y, g2d, temp,net);
 			if (temp <= 5)
 				temp++;
 			else
@@ -67,7 +81,7 @@ public class Object3D {
 				fx += 2 * b2;
 				p += b2 * (2 * x + 2) + a2 * (3 - 2 * y);// p=p+ b2(2x +2) + a2(3-2y)
 			}
-			plot(xc, yc, x, y, g2d, temp);
+			plot(xc, yc, x, y, g2d, temp,net);
 			if (temp <= 5)
 				temp++;
 			else
@@ -86,10 +100,13 @@ public class Object3D {
 		h *= 5;
 		r *= 5;
 		g2d.setColor(Color.BLUE);
-
+                
 		// ve hinh eclip
+                int net;
 		Object3D eclip = new Object3D();
-		eclip.eclipMidpoint(ox, oy, r, r / 2, g2d);
+                if(h < r/2) net = 1;
+                else net = -1;
+		eclip.eclipMidpoint(ox, oy, r, r / 2, g2d,net);
 		// two line can visible
 		/// g2d.setStroke(new BasicStroke(1));
 		duongThang(g2d, ox, oy - h, ox - r - 2, oy);
@@ -299,7 +316,7 @@ public class Object3D {
 		g2d.setColor(Color.RED);
 		g2d.setStroke(new BasicStroke(6));
 		g2d.drawLine(a1 * 5 + 375, 375 - b1 * 5, a1 * 5 + 375, 375 - b1 * 5);
-		eclipMidpoint(a1 * 5 + 375, 375 - b1 * 5, r * 5, (int) Math.round(r / (2 * Math.sqrt(2))) * 5, g2d);
+		eclipMidpoint(a1 * 5 + 375, 375 - b1 * 5, r * 5, (int) Math.round(r / (2 * Math.sqrt(2))) * 5, g2d,-1);
 		drawCircle(g2d, r, a1, b1);
 	}
 
@@ -339,4 +356,39 @@ public class Object3D {
 		duongThang(g2d, a5, b5, a6, b6);
 		duongThang(g2d, a1, b1, a4, b4);
 	}
+        public void drawHinhTru(int ox, int oy, int oz, int h, int r, Graphics2D g2d)
+        {
+            // bien doi cabinet
+		ox = Math.round((float) (ox - Math.sqrt(oz) / 4));
+		oy = Math.round((float) (oy + Math.sqrt(oz) / 4));
+		// bien doi tao do thuc cua may tinh
+		ox = ox * 5 + 375;
+		oy = 375 - oy * 5;
+		h *= 5;
+		r *= 5;
+		g2d.setColor(Color.BLUE);
+
+		// ve hinh eclip
+		Object3D eclip = new Object3D();
+		eclip.eclipMidpoint(ox, oy, r, r / 2, g2d,-1);
+		// two line can visible
+		/// g2d.setStroke(new BasicStroke(1));
+		duongThang(g2d, ox -r -2, oy - h, ox - r - 2, oy);
+		duongThang(g2d, ox + r, oy - h, ox + r, oy);
+		// line index unvisible
+		// g2d.setStroke(bs1);
+		netDut(g2d, ox, oy - h, ox, oy);
+		// g2d.dispose();
+		netDut(g2d, ox, oy, ox + r, oy);
+                // ve hinh eclip o tren
+                eclip.eclipMidpoint(ox, oy-h, r, r/2, g2d, 1);
+                duongThang(g2d, ox , oy - h, ox + r, oy-h);
+		// ve cai ten
+		// tam O
+		g2d.setFont(new Font("Arial", Font.BOLD, 15));
+		g2d.drawString("O", ox - 25, oy);
+		g2d.drawString("A", ox, oy - h - 10);
+		g2d.drawString("r", (ox + r / 2), oy - 10);
+		g2d.drawString("h", ox + 10, oy - (h / 2));
+        }
 }
