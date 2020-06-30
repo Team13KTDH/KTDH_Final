@@ -119,8 +119,8 @@ public class Surface extends JPanel {
 
 			// drawCone3D(x, z, 100, 200, g2d);
 
-			object1.drawCone3D(x_non, y_non, z_non, r_non, h_non, g2d);
-                        //object1.drawHinhTru(x_non, y_non, z_non, r_non, h_non, g2d);
+			//object1.drawCone3D(x_non, y_non, z_non, r_non, h_non, g2d);
+                        object1.drawHinhTru(x_non, y_non, z_non, r_non, h_non, g2d);
 		}
 
 		if (index == 3) {

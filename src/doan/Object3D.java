@@ -358,7 +358,7 @@ public class Object3D {
 		duongThang(g2d, a5, b5, a6, b6);
 		duongThang(g2d, a1, b1, a4, b4);
 	}
-        public void drawHinhTru(int ox, int oy, int oz, int h, int r, Graphics2D g2d)
+        public void drawHinhTru(int ox, int oy, int oz, int r, int h, Graphics2D g2d)
         {
             // bien doi cabinet
 		ox = Math.round((float) (ox - Math.sqrt(oz) / 4));
@@ -372,7 +372,22 @@ public class Object3D {
 
 		// ve hinh eclip
 		Object3D eclip = new Object3D();
-		eclip.eclipMidpoint(ox, oy, r, r / 2, g2d,-1);
+                
+                    if(h >0 )
+                    {
+                        eclip.eclipMidpoint(ox, oy, r, r / 2, g2d,-1);
+                        eclip.eclipMidpoint(ox, oy - (h), r, r/2, g2d, 1);
+                        netDut(g2d, ox, oy, ox + r, oy);
+                        duongThang(g2d, ox , oy - h, ox + r, oy-h);
+                    }
+                    else
+                    {
+                        eclip.eclipMidpoint(ox, oy, r, r / 2, g2d,1);
+                    eclip.eclipMidpoint(ox, oy - (h), r, r/2, g2d, -1);
+                    netDut(g2d,ox , oy - h, ox + r, oy-h);
+                    duongThang(g2d, ox, oy, ox + r, oy);
+                    }
+               
 		// two line can visible
 		/// g2d.setStroke(new BasicStroke(1));
 		duongThang(g2d, ox -r -2, oy - h, ox - r - 2, oy);
@@ -381,10 +396,7 @@ public class Object3D {
 		// g2d.setStroke(bs1);
 		netDut(g2d, ox, oy - h, ox, oy);
 		// g2d.dispose();
-		netDut(g2d, ox, oy, ox + r, oy);
-                // ve hinh eclip o tren
-                eclip.eclipMidpoint(ox, oy-h, r, r/2, g2d, 1);
-                duongThang(g2d, ox , oy - h, ox + r, oy-h);
+		
 		// ve cai ten
 		// tam O
 		g2d.setFont(new Font("Arial", Font.BOLD, 15));
